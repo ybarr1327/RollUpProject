@@ -1,5 +1,11 @@
-{% extends 'homepage/base.html' %}
+{% extends 'base.html' %}
 {% block content %}
     <h1>Welcome Extended</h1>
     <p>this is where the extension content will go</p>
+    <a href="{% url 'login' %}" class="btn btn-primary">Go to login page</a>
+    <!--
+    <a href="{% url 'about' %}" class="btn btn-primary">Go to about page</a>
+    <a href="{% url 'classinfo' %}" class="btn btn-primary">Go to classinfo page</a>
+    -->
+    
 {% endblock content %}
