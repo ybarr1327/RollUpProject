@@ -1,35 +1,50 @@
-from django.views.generic import TemplateView
+from django.contrib.auth import login
+from django.shortcuts import redirect, render
+from django.urls import reverse
+from Pages.forms import CustomUserCreationForm
+
+from django.contrib.auth.decorators import login_required
+
 # Create your views here.
 
-class HomePageView(TemplateView):
-    template_name = 'homepage/home.html'
 
-class LoginPageView(TemplateView):
-    template_name = 'login/loginpage.html'
+def HomePageView(request):
+    return render(request, "homepage/home.html")
 
-class LoginNewAccount(TemplateView):
-    template_name = 'login/newAccountPage.html'
+def AboutPageView(request):
+    return render(request,"about/aboutpage.html")
 
-class AboutPageView(TemplateView):
-    template_name = 'about/aboutpage.html'
+def ClassInfoPageView(request):
+    return render(request, "classinfopage/classinfopage.html")
 
-class ClassInfoPageView(TemplateView):
-    template_name = 'classinfopage/classinfopage.html'
+def register(request):
+    if request.method == "GET":
+        return render(
+            request, "registration/register.html",
+            {"form":CustomUserCreationForm}
+        )
+    elif request.method == "POST":
+        form = CustomUserCreationForm(request.POST)
+        if form.is_valid():
+            user = form.save()
+            login(request,user)
+            return redirect(reverse("accountDash"))
 
-class AccountPage(TemplateView):
-    template_name = 'accountPage/accountPage.html'
-
-class SchedulePage(TemplateView):
-    template_name = 'accountPage/schedulePage.html'
-
-class SignupClassPage(TemplateView):
-    template_name = 'accountPage/signupclassPage.html'  
-
-class CovidReportPage(TemplateView):
-    template_name = 'accountPage/covidreportPage.html' 
-
-class ContactPage(TemplateView):
-    template_name = 'accountPage/contactPage.html'
-
-class FAQPage(TemplateView):
-    template_name = 'accountPage/FAQPage.html'
+@login_required
+def AccountDashPage(request):
+    return render(request, "accountDashPage/accountDashPage.html")
+@login_required
+def SchedulePage(request):
+    return render(request, "accountDashPage/schedulePage.html")
+@login_required
+def SignupClassPage(request):
+    return render(request, "accountDashPage/signupclassPage.html")  
+@login_required
+def CovidReportPage(request):
+    return render(request, "accountDashPage/covidreportPage.html") 
+@login_required
+def ContactPage(request):
+    return render(request, "accountDashPage/contactPage.html")
+@login_required
+def FAQPage(request):
+    return render(request, "accountDashPage/FAQPage.html")
