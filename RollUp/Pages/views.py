@@ -5,6 +5,10 @@ from Pages.forms import CustomUserCreationForm
 
 from django.contrib.auth.decorators import login_required
 
+from django.contrib.auth.forms import UserCreationForm
+
+from django.contrib import messages
+
 # Create your views here.
 
 
@@ -18,17 +22,17 @@ def ClassInfoPageView(request):
     return render(request, "classinfopage/classinfopage.html")
 
 def register(request):
-    if request.method == "GET":
-        return render(
-            request, "registration/register.html",
-            {"form":CustomUserCreationForm}
-        )
-    elif request.method == "POST":
-        form = CustomUserCreationForm(request.POST)
-        if form.is_valid():
-            user = form.save()
-            login(request,user)
-            return redirect(reverse("accountDash"))
+    if request.method == 'POST':
+        f = CustomUserCreationForm(request.POST)
+        if f.is_valid():
+            f.save()
+            messages.success(request, 'Account created successfully')
+            return redirect('accountDash')
+
+    else:
+        f = CustomUserCreationForm()
+
+    return render(request, 'registration/register.html', {'form': f})
 
 @login_required
 def AccountDashPage(request):
