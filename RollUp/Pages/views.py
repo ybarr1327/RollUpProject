@@ -46,7 +46,7 @@ def SignupClassPage(request):
 @login_required
 def CovidReportPage(request):
     return render(request, "accountDashPage/covidreportPage.html") 
-@login_required
+
 def ContactPage(request):
     return render(request, "accountDashPage/contactPage.html")
 @login_required
