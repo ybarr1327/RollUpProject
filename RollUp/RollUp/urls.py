@@ -17,6 +17,9 @@ Including another URLconf
 from django.conf.urls import include, url
 from django.contrib import admin
 
+admin.site.site_header = 'RollUp Admin'
+admin.site.site_title = 'Rollup'
+
 urlpatterns = [
     url(r"^", include("Pages.urls")),
     url(r"^admin/", admin.site.urls),
