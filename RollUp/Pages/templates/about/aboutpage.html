@@ -1,6 +1,43 @@
 {% extends 'base.html' %}
 {% block content %}
-    <h1>Welcome Extended</h1>
-    <p>this is where the extension content will go</p>
-    <p>this is the about page</p>
+<link rel="preconnect" href="https://fonts.gstatic.com">
+<link href="https://fonts.googleapis.com/css2?family=Noto+Sans&display=swap" rel="stylesheet">
+
+<div class="about-section"  style = "font-family: 'Noto Sans', sans-serif;">
+    <h1 style = "text-align: center;">What We Do & Who We Are</h1>
+    <br>
+    <p style = "font-size: 20px;">We offer the best training in Brazilian jiu-Jitsu in San Diego CA for USA beginners, to pro Mixed Martial Artists, and Law Enforcement.
+        At the Academy, we focus on the team; Meaning you, the student. Not everyone has the same reasons for training in the Martial Arts. 
+        Some enjoy the exercise, others want to learn self-defense, and some may wish to pursue a career in MMA or competition. The philosophy 
+        of this Team is to teach functional Brazilian Jiu-Jitsu that you will keep with you for the rest of your life. You will not get watered 
+        down technique, or be taught how to win a tournament without knowing how to defend yourself on the street.  We will teach you to be 
+        comfortable anywhere, with or without strikes; on the feet, on the ground, off your back, how to control the situation, and how to 
+        have fun while learning it! Many of our students are Law Enforcement, Mixed Martial Artists and members of the Armed Forces.  People 
+        have diverse needs; that is why we have assembled equally diverse resources for the students at our school.
+    </p>
+  </div>
+  <br> <br> <br> <br>
+
+<div class = "image-section">
+    <h2 style="text-align:center">Our Facility</h2>
+    <br>
+    <div class = "card-group">
+        <div class = "card" style = "width: 18rem;">
+            <img class = "card-img-top" img src = "https://images.squarespace-cdn.com/content/v1/5e3108e5bc5b176ac3097129/1583108389039-QPEM75MYY1IK9MRUCTHQ/ke17ZwdGBToddI8pDm48kEP6Flcshdun9yvhbVsAFX8UqsxRUqqbr1mOJYKfIPR7LoDQ9mXPOjoJoqy81S2I8N_N4V1vUb5AoIIIbLZhVYxCRW4BPu10St3TBAUQYVKc0f7x1_PNcDz8U4E3KsYn5iPe2E85xyLRyqGIoWYOKiFJwh-wNUprV6lPfVah6MAn/Clark+Gracie+Brazilian+Jiu+Jitsu+San+Diego+CA+USA?format=750w">
+        </div>
+        <div class = "card" style = "width: 18rem;">
+            <img class = "card-img-top" img src = "https://images.squarespace-cdn.com/content/v1/5e3108e5bc5b176ac3097129/1583108413671-VWN1ZQDNHFUIL5P61ROI/ke17ZwdGBToddI8pDm48kH6PEGc5j6edaaFZXXyM5awUqsxRUqqbr1mOJYKfIPR7LoDQ9mXPOjoJoqy81S2I8N_N4V1vUb5AoIIIbLZhVYxCRW4BPu10St3TBAUQYVKchFo2wuRwu_HN5XSFevBoaE9Ss0d9C8iXIVkIWV84q-TqT3-wW2ZTDDNCLdpq4cQw/Clark+Gracie+Brazilian+Jiu+Jitsu+San+Diego+CA+USA?format=750w">
+        </div>
+    </div>
+</div>
+
+<style>
+    img {
+        max-width: 100%;
+        max-height: 100%;
+    }
+</style>
+
+
+
 {% endblock content %}
