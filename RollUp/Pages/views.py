@@ -1,5 +1,5 @@
 from django.contrib.auth import login
-from django.shortcuts import redirect, render
+from django.shortcuts import redirect, render, get_object_or_404
 from django.urls import reverse
 from Pages.forms import CustomUserCreationForm
 
@@ -8,6 +8,10 @@ from django.contrib.auth.decorators import login_required
 from django.contrib.auth.forms import UserCreationForm
 
 from django.contrib import messages
+
+from .models import Classes, Participants
+
+
 
 # Create your views here.
 
@@ -39,7 +43,17 @@ def AccountDashPage(request):
     return render(request, "accountDashPage/accountDashPage.html")
 @login_required
 def SchedulePage(request):
-    return render(request, "accountDashPage/schedulePage.html")
+
+
+    all_classes = Classes.objects.order_by('date')
+
+
+    contextOfClasses = {
+        'classes' : all_classes
+    }
+
+    return render(request, "accountDashPage/schedulePage.html", contextOfClasses)
+
 @login_required
 def SignupClassPage(request):
     return render(request, "accountDashPage/signupclassPage.html")  

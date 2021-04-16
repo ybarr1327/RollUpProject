@@ -7,8 +7,8 @@ from .models import Classes, Participants
 
 @admin.register(Classes)
 class ClassesAdmin(admin.ModelAdmin):
-    list_display = ('id','type','date','size','full','instructor','gi')
-    list_filter = ('type','full') 
+    list_display = ('id','type','date','size','num_signed_up','instructor','gi')
+    # list_filter = ('type')
 
 @admin.register(Participants)
 class ParticipantsAdmin(admin.ModelAdmin):

@@ -4,13 +4,15 @@ from django.utils import timezone
 
 from django.contrib.auth.models import User
 
+from django.core.validators import MinValueValidator, MaxValueValidator
+
 # Create your models here.
 # The class "Class_Schedule" is used to store a schedule of current classes.
 # This will be used to provide information on the welcome page for the website.
 class Classes(models.Model):
     # Each class will have a class id which will be used as the primary key. The id will be used to identify specific classes
     # which in a search can return data to the user.
-    id = models.IntegerField('id', primary_key=True)
+    id = models.AutoField('id', primary_key=True, auto_created=True, editable=False)
     # The Type field will be used to store the Type of class. This will also be the primary key.
     # There are different types of clases, i.e adults, adults fundamentals, kids, kids fundamentals.
     type = models.CharField('type', max_length=50)
@@ -18,12 +20,16 @@ class Classes(models.Model):
     date = models.DateTimeField(default=timezone.now)  # add date field
     # The Time field stores the time that the class is offered on a particular day.
     #time = models.CharField('time', max_length=10)
+    
     # The Size field will store an integer value for the number of participants allowed in the class.
-    size = models.IntegerField('size')
+    size = models.IntegerField('size', default=20, validators=[MinValueValidator(0)])
+
+    num_signed_up = models.IntegerField('num_signed_up', default=0, validators=[MinValueValidator(0)], editable=False) 
+    
+    
+    
     # The Instructor field will store the name of the instructor teaching the class.
-    # Full will be a field that will indicate if the class is full or not. This will be helpful when our program queries available classes 
-    # for participants to sign up for. The data in the field will be either Y (for yes) or N (for no).
-    full = models.CharField('full', max_length = 1)
+    
     instructor = models.CharField('instructor', max_length=50)
     # The Gi field will annotate whether a Gi will be required or not for class.
     # This attribute will be designated as Y(for yes) and N(for no) and stored as a char.

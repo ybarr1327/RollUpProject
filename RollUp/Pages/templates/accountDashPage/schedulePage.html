@@ -4,4 +4,29 @@
     <p>this is where the extension content will go</p>
     <p>this is the schedule page</p>
     <a href="{% url 'signup' %}" class="btn btn-primary">Go to class signup page</a>
+
+    <table border =1>
+        <tr>
+            <th>date</th>
+            <th>time</th>
+            <th>type</th>
+            <th>size</th>
+            <th>instructor</th>
+            <th>gi</th>
+        </tr>
+        
+        {% for i in classes %}
+            <tr>
+                <td>{{i.date}}</td>
+                <td>{{i.time}}</td>
+                <td>{{i.type}}</td>
+                <td>{{i.size}}</td>
+                <td>{{i.instructor}}</td>
+                <td>{{i.gi}}</td>
+            </tr>
+        {% endfor %}
+
+    </table>
+
+
 {% endblock content %}
