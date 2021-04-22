@@ -1,13 +1,13 @@
 {% extends 'base.html' %}
 
 {% block content %}
-<br> <br> <h2>Log In</h2> <br> <p>Log in to Your RollUp account</p>
+<h2>Log In</h2>
 <form method="post">
 	{% csrf_token %}
 	{{ form.as_p }}
 	<button type="submit">Log In</button>
-</form> <br>
-<a href="{% url 'home' %} " class="btn btn-dark">Return to home</a>
-<a href="{% url 'password_reset' %}" class="btn btn-dark">Reset password</a>
-<a href="{% url 'register' %}" class = "btn btn-dark">Register</a>
+</form>
+<a href="{% url 'home' %} " class="btn btn-primary">Back</a>
+<a href="{% url 'password_reset' %}" class="btn btn-primary">Reset password</a>
+<a href="{% url 'register' %}">Register</a>
 {% endblock content %}

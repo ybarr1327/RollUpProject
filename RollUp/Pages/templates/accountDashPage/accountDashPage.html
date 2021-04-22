@@ -1,39 +1,12 @@
 {% extends 'base.html' %}
 {% block content %}
-<br><br>
-    <h1>My Account</h1> <br>
-    <h6> You are logged in as</h6> <br> <br>
-
-
-    <div class="row">
-        <div class="col-sm-6">
-          <div class="card">
-            <div class="card-body">
-              <h5 class="card-title">View Class Schedule</h5>
-              <p class="card-text">Sign up for classes that best fit your schedule</p>
-              <a href="{% url 'schedule' %}" class="btn btn-dark">Schedule</a>
-            </div>
-          </div>
-        </div>
-        <div class="col-sm-6">
-          <div class="card">
-            <div class="card-body">
-              <h5 class="card-title">View FAQ</h5>
-              <p class="card-text">Curious about our gym? Check our FAQ</p>
-              <a href="{% url 'FAQ' %}" class="btn btn-dark">FAQ</a>
-            </div>
-          </div>
-        </div>
-      </div>
-
-
-      <div class="card text-center">
-        <div class="card-body">
-          <h5 class="card-title">Let us know if you had covid</h5>
-          <a href="{% url 'covidreport' %}" class="btn btn-dark">COVID Reporting</a>
-        </div>
-      </div>
-
+    <h1>Welcome Extended</h1>
+    <p>this is where the extension content will go</p>
+    <p>this is the account page</p>
+    <a href="{% url 'schedule' %}" class="btn btn-primary">Go to schedule page</a>
+    <a href="{% url 'covidreport' %}" class="btn btn-primary">Go to covid report page</a>
+    <a href="{% url 'contact' %}" class="btn btn-primary">Go to contact page</a>
+    <a href="{% url 'FAQ' %}" class="btn btn-primary">Go to FAQ page</a>
     <!-- <a href="{% url 'password_change' %}" class="btn btn-primary" >Change password</a>
     <a href="{% url 'logout' %}" class="btn btn-primary">Logout</a> -->
 {% endblock content %}
