@@ -1,5 +1,5 @@
 from django.contrib.auth import login
-from django.shortcuts import redirect, render, get_object_or_404
+from django.shortcuts import redirect, render
 from django.urls import reverse
 from Pages.forms import CustomUserCreationForm
 
@@ -49,10 +49,14 @@ def SchedulePage(request):
     }
 
     if request.method == 'POST' and 'SignUpForClass' in request.POST:
-        
+        user = request.user
         #get the user data
         
-        #register them in the participants table
+        newParticipant = Participants()
+        newParticipant.email = user.email
+        newParticipant.name = user.first_name
+        newParticipant.save()
+            
         
         # return user to required page
         return redirect('/accountDash/schedule/signup/') 
