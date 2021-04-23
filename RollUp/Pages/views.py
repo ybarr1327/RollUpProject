@@ -1,7 +1,7 @@
 from django.contrib.auth import login
 from django.shortcuts import redirect, render, get_object_or_404
 from django.urls import reverse
-from Pages.forms import CustomUserCreationForm, participantCreationForm
+from Pages.forms import CustomUserCreationForm
 
 from django.contrib.auth.decorators import login_required
 
@@ -51,14 +51,6 @@ def SchedulePage(request):
 
 @login_required
 def SignupClassPage(request):
-    model = Participants(request.POST)
-    fields = ['email', 'name']
-
-    def form_valid(self, form):
-        form.instance.email = self.request.user
-        form.instance.name = self.request.user
-        return super().form_valid(form)
-
     return render(request, "accountDashPage/signupclassPage.html")
 
 @login_required

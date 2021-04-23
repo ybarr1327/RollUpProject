@@ -60,7 +60,7 @@ class Participants(models.Model):
     # class_id = models.ForeignKey(Classes, on_delete=models.DO_NOTHING, default=0)
     email = models.CharField('email', max_length=50)
     name = models.CharField('name', max_length=100)
-    
+
     def __str__(self):
         return str(self.participant_id)
     class Meta:

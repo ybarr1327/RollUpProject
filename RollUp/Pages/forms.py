@@ -44,19 +44,3 @@ class CustomUserCreationForm(UserCreationForm):
     def clean_last_name(self):
         last_name = self.cleaned_data['last_name'].lower()
         return last_name
-
-class participantCreationForm():
-
-    class Meta:
-        model = Participants
-        fields = ['class_id','name','email']
-
-    def save(self, commit=True):
-        participant = super(participantCreationForm,self).save(commit=False)
-        form.instance.email = self.request.user['email']
-        form.instance.name = self.request.user['first_name']
-        
-        if commit:
-            participant.save()
-
-        return participant
