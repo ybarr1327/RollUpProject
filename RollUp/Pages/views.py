@@ -1,7 +1,7 @@
 from django.contrib.auth import login
 from django.shortcuts import redirect, render, get_object_or_404
 from django.urls import reverse
-from Pages.forms import CustomUserCreationForm
+from Pages.forms import CustomUserCreationForm, participantCreationForm
 
 from django.contrib.auth.decorators import login_required
 
@@ -43,20 +43,24 @@ def AccountDashPage(request):
     return render(request, "accountDashPage/accountDashPage.html")
 @login_required
 def SchedulePage(request):
-
-
     all_classes = Classes.objects.order_by('date')
-
-
     contextOfClasses = {
         'classes' : all_classes
     }
-
     return render(request, "accountDashPage/schedulePage.html", contextOfClasses)
 
 @login_required
 def SignupClassPage(request):
-    return render(request, "accountDashPage/signupclassPage.html")  
+    model = Participants(request.POST)
+    fields = ['email', 'name']
+
+    def form_valid(self, form):
+        form.instance.email = self.request.user
+        form.instance.name = self.request.user
+        return super().form_valid(form)
+
+    return render(request, "accountDashPage/signupclassPage.html")
+
 @login_required
 def CovidReportPage(request):
     return render(request, "accountDashPage/covidreportPage.html") 
