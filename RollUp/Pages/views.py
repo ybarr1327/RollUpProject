@@ -47,6 +47,16 @@ def SchedulePage(request):
     contextOfClasses = {
         'classes' : all_classes
     }
+
+    if request.method == 'POST' and 'SignUpForClass' in request.POST:
+        
+        #get the user data
+        
+        #register them in the participants table
+        
+        # return user to required page
+        return redirect('/accountDash/schedule/signup/') 
+
     return render(request, "accountDashPage/schedulePage.html", contextOfClasses)
 
 @login_required

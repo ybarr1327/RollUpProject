@@ -1,12 +1,20 @@
 {% extends 'base.html' %}
 {% block content %}
-    <nav class="navbar sticky-top navbar-light bg-light">
+    <!-- <nav class="navbar sticky-top navbar-light bg-light">
         <div class="container-fluid">
         <a class="navbar-brand" href="{% url 'signup' %}">
             <button class="btn btn-outline-success me-2" type="button">SIGN UP</button>
         </a>
+        
+
+
         </div>
-    </nav>
+    </nav> -->
+
+    <form method="post">
+        {% csrf_token %}
+        <button type="submit" name="SignUpForClass">SIGN UP</button>
+    </form>
 
     <table class= "table table-striped" border =1>
         <tr>
