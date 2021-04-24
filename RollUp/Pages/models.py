@@ -57,7 +57,7 @@ class Participants(models.Model):
     # used as a foreign key to get the participants id from the class users located in the Users application
     participant_id = models.AutoField('participant_id', primary_key=True, auto_created=True, editable=False)#models.IntegerField('participant_id', primary_key=True)
     # used to get the id of the class in the above classes model.
-    # class_id = models.ForeignKey(Classes, on_delete=models.DO_NOTHING, default=0)
+    class_id = models.ForeignKey(Classes, on_delete=models.DO_NOTHING, default=0)
     email = models.CharField('email', max_length=50)
     name = models.CharField('name', max_length=100)
 

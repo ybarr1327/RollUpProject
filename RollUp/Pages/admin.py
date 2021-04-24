@@ -12,4 +12,4 @@ class ClassesAdmin(admin.ModelAdmin):
 
 @admin.register(Participants)
 class ParticipantsAdmin(admin.ModelAdmin):
-    list_display = ('participant_id','email','name')
+    list_display = ('participant_id','email','name','class_id')

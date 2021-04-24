@@ -14,36 +14,39 @@
     <form method="post">
         {% csrf_token %}
         <button type="submit" name="SignUpForClass">SIGN UP</button>
+        <table class= "table table-striped" border =1>
+            <tr>
+                <th>Selected</th>
+                <th>Date</th>
+                <th>Time</th>
+                <th>Type</th>
+                <th>Size</th>
+                <th>Instructor</th>
+                <th>Gi</th>
+            </tr>
+            
+            {% for i in classes %}
+                <tr>
+                    <td>
+                        <!-- <form method="post">
+                            <input type="checkbox" name="check" value={{i.id}} id={{i.id}}/>
+                        </form> -->
+                        <input type="checkbox" name="checkbox" value={{i.id}} />
+                    </td>
+                    <td>{{i.date}}</td>
+                    <td>{{i.time}}</td>
+                    <td>{{i.type}}</td>
+                    <td>{{i.size}}</td>
+                    <td>{{i.instructor}}</td>
+                    <td>{{i.gi}}</td>
+                </tr>
+            {% endfor %}
+    
+        </table>
+    
     </form>
 
-    <table class= "table table-striped" border =1>
-        <tr>
-            <th>Selected</th>
-            <th>Date</th>
-            <th>Time</th>
-            <th>Type</th>
-            <th>Size</th>
-            <th>Instructor</th>
-            <th>Gi</th>
-        </tr>
-        
-        {% for i in classes %}
-            <tr>
-                <td>
-                    <form action="" method="post">
-                        <label for={{i.id}}><input type="checkbox" name="selected" value="addclass" id={{i.id}}></label>
-                    </form>
-                </td>
-                <td>{{i.date}}</td>
-                <td>{{i.time}}</td>
-                <td>{{i.type}}</td>
-                <td>{{i.size}}</td>
-                <td>{{i.instructor}}</td>
-                <td>{{i.gi}}</td>
-            </tr>
-        {% endfor %}
-
-    </table>
+    
 
 
 {% endblock content %}

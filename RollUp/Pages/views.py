@@ -51,11 +51,20 @@ def SchedulePage(request):
     if request.method == 'POST' and 'SignUpForClass' in request.POST:
         user = request.user
         #get the user data
+
         
-        newParticipant = Participants()
-        newParticipant.email = user.email
-        newParticipant.name = user.first_name +" "+ user.last_name
-        newParticipant.save()
+        #get the clicked checkboxes
+        check_boxes = request.POST.getlist('checkbox')
+        # print(check_boxes)
+        for i in check_boxes:
+            newParticipant = Participants()
+            newParticipant.email = user.email
+            newParticipant.name = user.first_name +" "+ user.last_name
+            newParticipant.class_id = Classes.objects.get(id = i)
+            newParticipant.save()
+        
+        
+        
             
         
         # return user to required page
