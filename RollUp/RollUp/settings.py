@@ -127,5 +127,6 @@ LOGIN_REDIRECT_URL = "accountDash"
 EMAIL_HOST = "localhost"
 EMAIL_PORT = 1025
 
+DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 
 

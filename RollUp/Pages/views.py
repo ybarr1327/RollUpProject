@@ -54,7 +54,7 @@ def SchedulePage(request):
         
         newParticipant = Participants()
         newParticipant.email = user.email
-        newParticipant.name = user.first_name
+        newParticipant.name = user.first_name +" "+ user.last_name
         newParticipant.save()
             
         
