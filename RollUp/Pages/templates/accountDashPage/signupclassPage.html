@@ -1,6 +1,10 @@
 {% extends 'base.html' %}
 {% block content %}
-    <h1>Sign Up Confirmed</h1>
-    <p>Classes:</p>
-    <p>fill in classes here</p>
+    {% for a in succeed %}
+        <p>Signed up for the {{a.type}} class at {{a.time}} on {{a.date}}</p>
+    {% endfor %}
+
+    {% for b in failed %}
+        <p>Could not sign up for the {{b.type}} class at {{b.time}} on {{b.date}} because it is full</p>
+    {% endfor %}
 {% endblock content %}
