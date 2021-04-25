@@ -1,16 +1,17 @@
 <html>
 
 <head>
+  <body style = "background-color: #cac7c7;">
   <title></title>
   <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0-beta2/dist/css/bootstrap.min.css" rel="stylesheet"
     integrity="sha384-BmbxuPwQa2lc/FVzBcNJ7UAyJxM6wuqIj61tLrc4wSX0szH/Ev+nYRRuWlolflfl" crossorigin="anonymous">
   <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0-beta2/dist/js/bootstrap.bundle.min.js"
     integrity="sha384-b5kHyXgcpbZJO/tY9Ul7kGkf1S0CWuKcCD38l8YkeH8z8QjE0GmW1gYU5S9FOnJ0"
     crossorigin="anonymous"></script>
-  <nav class="navbar navbar-expand-lg navbar-light bg-light">
+  <nav class="navbar navbar-expand-lg navbar-light bg-secondary">
     <div class="container-fluid">
       <a class="navbar-brand" href="#"><img src = "https://avatars.githubusercontent.com/u/12554859?s=400&v=4" width = "40" height = "40"\>
-        <div class = "centered"> Rollup </div></a>
+        <div class = "centered" style = "font-weight: bold; color: black"> Rollup </div></a>
       <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent"
         aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
         <span class="navbar-toggler-icon"></span>
@@ -18,22 +19,22 @@
       <div class="collapse navbar-collapse" id="navbarSupportedContent">
         <ul class="navbar-nav me-auto mb-2 mb-lg-0">
           <li class="nav-item">
-            <a class="nav-link active" aria-current="page" href="{% url 'home' %}">Home</a>
+            <a class="nav-link active" aria-current="page" href="{% url 'home' %} " style = "font-weight: bold; color: black">Home</a>
           </li>
           <li class="nav-item">
-            <a class="nav-link" href="{% url 'about' %}">About</a>
+            <a class="nav-link" href="{% url 'about' %}" style = "font-weight: bold; color: black">About</a>
           </li>
           <li class="nav-item">
-            <a class="nav-link" href="{% url 'classinfo' %}">Class Information</a>
+            <a class="nav-link" href="{% url 'classinfo' %}" style = "font-weight: bold; color: black">Class Information</a>
           </li>
           <li class="nav-item">
-            <a class="nav-link" href="{% url 'contact' %}">Contact</a>
+            <a class="nav-link" href="{% url 'contact' %}" style = "font-weight: bold; color: black">Contact</a>
           </li>
 
           {% if user.is_authenticated %}
           <li class="nav-item dropdown">
             <a class="nav-link dropdown-toggle" href="" id="navbarDropdown" role="button" data-bs-toggle="dropdown"
-              aria-expanded="false">
+              aria-expanded="false"style = "font-weight: bold; color: black">
               Account
             </a>
             <ul class="dropdown-menu" aria-labelledby="navbarDropdown">
@@ -46,7 +47,7 @@
             </ul>
           </li>
           {% else %}
-          <a href="{% url 'login' %}" class="nav-link">Login</a>
+          <a href="{% url 'login' %}" class="nav-link" style = "font-weight: bold; color: black">Login</a>
           {% endif %}
 
           
@@ -56,6 +57,9 @@
       </div>
     </div>
   </nav>
+
+  </body>
+</head>
 
 
 
