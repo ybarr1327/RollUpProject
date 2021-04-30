@@ -20,25 +20,40 @@
                 <th>Date</th>
                 <th>Time</th>
                 <th>Type</th>
-                <th>Size</th>
+                <th>Max Size</th>
                 <th>Instructor</th>
+                <th>Seats Available</th>
                 <th>Gi</th>
             </tr>
             
             {% for i in classes %}
                 <tr>
+                    {% if i.seat_left <= 0 %}
+                    <td>
+                        
+                    </td>
+                    
+                    {% else %}
+
                     <td>
                         <!-- <form method="post">
                             <input type="checkbox" name="check" value={{i.id}} id={{i.id}}/>
                         </form> -->
                         <input type="checkbox" name="checkbox" value={{i.id}} />
                     </td>
+
+                    {% endif %}
+
+                    
                     <td>{{i.date}}</td>
                     <td>{{i.time}}</td>
                     <td>{{i.type}}</td>
                     <td>{{i.size}}</td>
                     <td>{{i.instructor}}</td>
+                    <td>{{i.seat_left}}</td>
                     <td>{{i.gi}}</td>
+
+                    
                 </tr>
             {% endfor %}
     

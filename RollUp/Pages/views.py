@@ -10,6 +10,7 @@ from django.contrib.auth.forms import UserCreationForm
 from django.contrib import messages
 
 from .models import Classes, Participants
+from datetime import date, timedelta
 
 
 
@@ -43,7 +44,9 @@ def AccountDashPage(request):
     return render(request, "accountDashPage/accountDashPage.html")
 @login_required
 def SchedulePage(request):
-    all_classes = Classes.objects.order_by('date') #get all the entries from the classes table ordered by date
+    today = date.today()
+
+    all_classes = Classes.objects.order_by('date').filter(date__range = [today, today + timedelta(days=30)] ) #get all the entries from the classes table ordered by date
     #store the context of the classes to pass to the render
     contextOfClasses = {  
         'classes' : all_classes
@@ -62,6 +65,7 @@ def SchedulePage(request):
             # the following are lists to store which classes were able to be signed up for or not
             sucessfulClassSignups = []
             failedClassSignups = []
+            alreadySignedUpFail = []
             
             # print(check_boxes)
             
@@ -69,27 +73,31 @@ def SchedulePage(request):
             for i in check_boxes:
                 #get the class object associated with that class id
                 classToSignUpFor = Classes.objects.get(id=i)
-                
+
+                if Participants.objects.filter(class_id = i, username = user.username).exists() == False:
                 # if there is room in that class, sign up
-                if classToSignUpFor.num_signed_up < classToSignUpFor.size:
-                    
-                    #add this class id to the sucessful signup list
-                    sucessfulClassSignups.append(classToSignUpFor.id)
-                    
-                    #create a new participant and store it
-                    newParticipant = Participants()
-                    newParticipant.email = user.email
-                    newParticipant.name = user.first_name +" "+ user.last_name
-                    newParticipant.class_id = classToSignUpFor
-                    newParticipant.save()
-                else: # if the class is full, then add it to the fail list
-                    failedClassSignups.append(classToSignUpFor.id)
+                    if classToSignUpFor.num_signed_up < classToSignUpFor.size:
+                        
+                        #add this class id to the sucessful signup list
+                        sucessfulClassSignups.append(classToSignUpFor.id)
+                        
+                        #create a new participant and store it
+                        newParticipant = Participants()
+                        newParticipant.email = user.email
+                        newParticipant.name = user.first_name +" "+ user.last_name
+                        newParticipant.class_id = classToSignUpFor
+                        newParticipant.username = str(user.username)
+                        newParticipant.save()
+                    else: # if the class is full, then add it to the fail list
+                        failedClassSignups.append(classToSignUpFor.id)
+                else:
+                    alreadySignedUpFail.append(classToSignUpFor.id)
             
             # print(sucessfulClassSignups)
             # print(failedClassSignups)
 
             #store the sucess and fail lists in a tuple
-            signupconfimation = (sucessfulClassSignups,failedClassSignups)
+            signupconfimation = (sucessfulClassSignups,failedClassSignups, alreadySignedUpFail)
             
             #store the signup confimation tuple in a session
             #NOTE: a session is like a hash table / dictionary that stores data on a string key wihtin the database
@@ -118,17 +126,21 @@ def SignupClassPage(request):
 
     sucessfulSignups = [] #this is a list that will store the actual class objects of the classes that were sucessfull signed up for
     failedSignups = [] # this is a list that will store the actual class objects of the classes that were nor able to be signed up for
+    alreadySignedUp = []
 
     for a in classes_signed_up_for[0]: # for all the sucessful ones, add their objects to the list
         sucessfulSignups.append(Classes.objects.get(id=a))
     for b in classes_signed_up_for[1]: # for all the failed ones, add their objescts to the list
         failedSignups.append(Classes.objects.get(id=b))
+    for c in classes_signed_up_for[2]:
+        alreadySignedUp.append(Classes.objects.get(id=c))
 
 
     #strore the two lists as the context dictionary
     context = { 
         'succeed' : sucessfulSignups,
-        'failed' : failedSignups
+        'failed' : failedSignups,
+        'signedUpAlready' : alreadySignedUp
     }
     #render the view with the context
     return render(request, "accountDashPage/signupclassPage.html", context)

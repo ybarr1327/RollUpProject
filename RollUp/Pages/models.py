@@ -11,10 +11,17 @@ from django.core.validators import MinValueValidator, MaxValueValidator
 # This will be used to provide information on the welcome page for the website.
 class Classes(models.Model):
     # type - choices
-    BASIC = 'Basic'
-    ADVANCED = 'Advanced'
-    COMPETITION = 'Competition'
-    choiceClasses = [(BASIC, "Adults - Basics"),(ADVANCED, "Adults - Advanced"), (COMPETITION, "Adults - Competition") ]
+    ABASIC = 'Adults - Basic'
+    AADVANCED = 'Adults - Advanced'
+    ACOMPETITION = 'Adults - Competition'
+
+    KBASIC = 'Kids - Basic'
+    KADVANCED = 'Kids - Advanced'
+    KCOMPETITION = 'Kids - Competition'
+
+    OMat = 'Open Mat'
+
+    choiceClasses = [(ABASIC, "Adults - Basics"),(AADVANCED, "Adults - Advanced"), (ACOMPETITION, "Adults - Competition"), (KBASIC, "Kids - Basic"), (KADVANCED, "Kids - Advanced"), (KCOMPETITION, "Kids - Competition"), (OMat, "Open Mat") ]
     # time - choices
     AM = '6:00 AM' #6AM
     ANOON = '12:00 PM'
@@ -30,7 +37,7 @@ class Classes(models.Model):
     id = models.AutoField('id', primary_key=True, auto_created=True, editable=False)
     # The Type field will be used to store the Type of class. This will also be the primary key.
     # There are different types of clases, i.e adults, adults fundamentals, kids, kids fundamentals.
-    type = models.CharField('type', max_length=50, choices = choiceClasses, default=BASIC)
+    type = models.CharField('type', max_length=50, choices = choiceClasses, default=ABASIC)
     # The date field will store the date the class was held on.
     date = models.DateField(default=timezone.now)  # add date field
     # The Time field stores the time that the class is offered on a particular day.
@@ -43,6 +50,10 @@ class Classes(models.Model):
     # The Gi field will annotate whether a Gi will be required or not for class.
     # This attribute will be designated as Y(for yes) and N(for no) and stored as a char.
     gi = models.CharField('gi', max_length=3, choices=choiceGi, default=YES)
+
+    @property
+    def seat_left(self): 
+        return self.size-self.num_signed_up
 
     def __str__(self):
         return str(self.id)
@@ -57,6 +68,7 @@ class Participants(models.Model):
     # used as a foreign key to get the participants id from the class users located in the Users application
     participant_id = models.AutoField('participant_id', primary_key=True, auto_created=True, editable=False)#models.IntegerField('participant_id', primary_key=True)
     # used to get the id of the class in the above classes model.
+    username = models.CharField('username', max_length=100, default = '')
     class_id = models.ForeignKey(Classes, on_delete=models.CASCADE, default=0)
     email = models.CharField('email', max_length=50)
     name = models.CharField('name', max_length=100)

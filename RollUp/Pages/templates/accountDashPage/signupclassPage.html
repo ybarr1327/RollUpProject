@@ -7,4 +7,8 @@
     {% for b in failed %}
         <p>Could not sign up for the {{b.type}} class at {{b.time}} on {{b.date}} because it is full</p>
     {% endfor %}
+
+    {% for c in signedUpAlready %}
+        <p>Could not sign up for the {{c.type}} class at {{c.time}} on {{c.date}} because you are already signed up for class</p>
+    {% endfor %}
 {% endblock content %}
