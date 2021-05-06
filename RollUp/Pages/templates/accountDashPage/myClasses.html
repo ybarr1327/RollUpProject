@@ -1,0 +1,25 @@
+{% extends 'base.html' %}
+{% block content %}
+<table class="table table-striped" border=1>
+    <tr>
+        <th>Date</th>
+        <th>Time</th>
+        <th>Type</th>
+        <th>Instructor</th>
+        <th>Gi Required</th>
+    </tr>
+
+    {% for i in classes %}
+    <tr>
+        <td>{{i.date}}</td>
+        <td>{{i.time}}</td>
+        <td>{{i.type}}</td>
+        <td>{{i.instructor}}</td>
+        <td>{{i.gi}}</td>
+    </tr>
+    {% endfor %}
+
+</table>
+
+
+{% endblock content %}
