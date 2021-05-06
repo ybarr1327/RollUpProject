@@ -183,11 +183,11 @@ def MyClassesPage(request):
         if check_boxes:  # if there were objects checked
             # for all the class ids / checkboxes selected
             for i in check_boxes:
-                # get the class object associated with that class id
-                classToSignUpFor = Classes.objects.get(id=i)
+                # get the participant entry associated with that class id and username
+                registrationToDelete = Participants.objects.filter(class_id = i, username=user.username)
 
-                if Participants.objects.filter(class_id=i, username=user.username).exists() == True: # make sure the participant actually exists before trying to delete it 
-                    classToSignUpFor.delete()
+                if registrationToDelete.exists() == True: # make sure the participant actually exists before trying to delete it 
+                    registrationToDelete.delete()
             return redirect('MyClasses')
 
     return render(request, "accountDashPage/myClasses.html",contextforMyclasses)
