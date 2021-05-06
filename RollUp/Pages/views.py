@@ -155,22 +155,40 @@ def SignupClassPage(request):
 
 @login_required
 def MyClassesPage(request):
+    #get the participant entries for every class the user is signed up for
     user = request.user
     Participants_Entries = Participants.objects.filter(username=user.username)
     
+    #get the id's of each class
     SignUps = []
     for i in Participants_Entries:
         SignUps.append(i.class_id.id)
 
     
+    #get the acutual classes based on the ids
     MyClasses = []
     for i in SignUps:
         MyClasses.append(Classes.objects.get(id=i))
 
-    
+    #define the context of MyClassesPage
     contextforMyclasses = {
         'classes' : MyClasses
     }
+
+    if request.method == 'POST' and 'UnregisterForClass' in request.POST:
+
+        # get the clicked checkboxes, this gets a list of numbers that contain the checkbox id's,
+        # these ids are set to the value of the class id they are representing
+        check_boxes = request.POST.getlist('checkbox')
+        if check_boxes:  # if there were objects checked
+            # for all the class ids / checkboxes selected
+            for i in check_boxes:
+                # get the class object associated with that class id
+                classToSignUpFor = Classes.objects.get(id=i)
+
+                if Participants.objects.filter(class_id=i, username=user.username).exists() == True: # make sure the participant actually exists before trying to delete it 
+                    classToSignUpFor.delete()
+            return redirect('MyClasses')
 
     return render(request, "accountDashPage/myClasses.html",contextforMyclasses)
 
