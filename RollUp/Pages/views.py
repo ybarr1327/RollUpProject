@@ -106,7 +106,7 @@ def SchedulePage(request):
             send_mail('Roll Up Project - Sign Up Successful',
                             'test',
                             'rollupproject@gmail.com',
-                            ['rollupproject@gmail.com']
+                            [user.email]
                         )
             
             
