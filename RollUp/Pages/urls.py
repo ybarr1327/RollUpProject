@@ -11,6 +11,8 @@ from django.urls import include as inc1
 from django.conf.urls import url
 from django.conf.urls import include as inc2
 
+from django.contrib.auth import views as auth_views
+
 
 urlpatterns = [
     url (r"^accounts/",inc2("django.contrib.auth.urls")),

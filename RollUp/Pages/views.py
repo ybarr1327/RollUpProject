@@ -100,19 +100,27 @@ def SchedulePage(request):
             # print(sucessfulClassSignups)
             # print(failedClassSignups)
 
-            #store the sucess and fail lists in a tuple
-            signupconfimation = (sucessfulClassSignups,failedClassSignups, alreadySignedUpFail)
+            # store the sucess and fail lists in a tuple
+            signupconfimation = (sucessfulClassSignups,
+                                 failedClassSignups, alreadySignedUpFail)
 
-            send_mail('Roll Up Project - Sign Up Successful',
-                            'test',
-                            'rollupproject@gmail.com',
-                            [user.email]
-                        )
-            
-            
-            #store the signup confimation tuple in a session
-            #NOTE: a session is like a hash table / dictionary that stores data on a string key wihtin the database
-            #NOTE: this is mainly useful for passing in between different views / different urls 
+            if sucessfulClassSignups:
+                email_msg = 'You signed up for the following classes:'
+
+                for i in sucessfulClassSignups:
+                    class_signed_up = Classes.objects.get(id=i)
+                    email_msg += '\n' + class_signed_up.type + ' ' + \
+                        str(class_signed_up.time) + ' ' + \
+                            str(class_signed_up.date)
+                send_mail('Roll Up Project - Sign Up Successful',
+                          email_msg,
+                          'rollupproject@gmail.com',
+                                [user.email]
+                          )
+
+            # store the signup confimation tuple in a session
+            # NOTE: a session is like a hash table / dictionary that stores data on a string key wihtin the database
+            # NOTE: this is mainly useful for passing in between different views / different urls
             request.session['signupdata'] = signupconfimation
 
             # store the signup confimation tuple in a session
@@ -164,24 +172,23 @@ def SignupClassPage(request):
 
 @login_required
 def MyClassesPage(request):
-    #get the participant entries for every class the user is signed up for
+    # get the participant entries for every class the user is signed up for
     user = request.user
     Participants_Entries = Participants.objects.filter(username=user.username)
-    
-    #get the id's of each class
+
+    # get the id's of each class
     SignUps = []
     for i in Participants_Entries:
         SignUps.append(i.class_id.id)
 
-    
-    #get the acutual classes based on the ids
+    # get the acutual classes based on the ids
     MyClasses = []
     for i in SignUps:
         MyClasses.append(Classes.objects.get(id=i))
 
-    #define the context of MyClassesPage
+    # define the context of MyClassesPage
     contextforMyclasses = {
-        'classes' : MyClasses
+        'classes': MyClasses
     }
 
     if request.method == 'POST' and 'UnregisterForClass' in request.POST:
@@ -191,15 +198,20 @@ def MyClassesPage(request):
         check_boxes = request.POST.getlist('checkbox')
         if check_boxes:  # if there were objects checked
             # for all the class ids / checkboxes selected
-            for i in check_boxes:
-                # get the participant entry associated with that class id and username
-                registrationToDelete = Participants.objects.filter(class_id = i, username=user.username)
 
-                if registrationToDelete.exists() == True: # make sure the participant actually exists before trying to delete it 
-                    registrationToDelete.delete()
+            email_msg = 'You unregistered for the following classes:'
+
+            for i in check_boxes:
+                registrationToDelete = Participants.objects.get(class_id=i, username=user.username)
+                email_msg += '\n' + registrationToDelete.class_id.type + ' ' + str(registrationToDelete.class_id.time) + ' ' + str(registrationToDelete.class_id.date)
+                # get the participant entry associated with that class id and username
+                
+                registrationToDelete.delete()
+
+            send_mail('Roll Up Project - Classes Successfully Unregistered', email_msg, 'rollupproject@gmail.com', [user.email])
             return redirect('MyClasses')
 
-    return render(request, "accountDashPage/myClasses.html",contextforMyclasses)
+    return render(request, "accountDashPage/myClasses.html", contextforMyclasses)
 
 
 @ login_required
