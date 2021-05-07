@@ -11,4 +11,6 @@
     {% for c in signedUpAlready %}
         <p>Could not sign up for the {{c.type}} class at {{c.time}} on {{c.date}} because you are already signed up for class</p>
     {% endfor %}
+
+    <a href="{% url 'MyClasses' %}" class="btn btn-dark">My Registered Classes</a>
 {% endblock content %}

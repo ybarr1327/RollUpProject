@@ -11,18 +11,20 @@ from django.core.mail import send_mail
 from django.conf import settings
 
 
-
 # Create your views here.
 
 
 def HomePageView(request):
     return render(request, "homepage/home.html")
 
+
 def AboutPageView(request):
-    return render(request,"about/aboutpage.html")
+    return render(request, "about/aboutpage.html")
+
 
 def ClassInfoPageView(request):
     return render(request, "classinfopage/classinfopage.html")
+
 
 def register(request):
     if request.method == 'POST':
@@ -37,62 +39,64 @@ def register(request):
 
     return render(request, 'registration/register.html', {'form': f})
 
+
 @login_required
 def AccountDashPage(request):
     return render(request, "accountDashPage/accountDashPage.html")
+
+
 @login_required
 def SchedulePage(request):
     today = date.today()
 
-    all_classes = Classes.objects.order_by('date').filter(date__range = [today, today + timedelta(days=30)] ) #get all the entries from the classes table ordered by date
-    #store the context of the classes to pass to the render
-    contextOfClasses = {  
-        'classes' : all_classes
+    # get all the entries from the classes table ordered by date
+    all_classes = Classes.objects.order_by('date').filter(
+        date__range=[today, today + timedelta(days=30)])
+    # store the context of the classes to pass to the render
+    contextOfClasses = {
+        'classes': all_classes
     }
 
-    #if the user pressed the sign up button
+    # if the user pressed the sign up button
     if request.method == 'POST' and 'SignUpForClass' in request.POST:
-        
-        
-        #get the clicked checkboxes, this gets a list of numbers that contain the checkbox id's, 
+
+        # get the clicked checkboxes, this gets a list of numbers that contain the checkbox id's,
         # these ids are set to the value of the class id they are representing
         check_boxes = request.POST.getlist('checkbox')
-        if check_boxes: #if there were objects checked
-            user = request.user # get the user data
-            
+        if check_boxes:  # if there were objects checked
+            user = request.user  # get the user data
+
             # the following are lists to store which classes were able to be signed up for or not
             sucessfulClassSignups = []
             failedClassSignups = []
             alreadySignedUpFail = []
-            
+
             # print(check_boxes)
-            
-            #for all the class ids / checkboxes selected
+
+            # for all the class ids / checkboxes selected
             for i in check_boxes:
-                #get the class object associated with that class id
+                # get the class object associated with that class id
                 classToSignUpFor = Classes.objects.get(id=i)
 
-                if Participants.objects.filter(class_id = i, username = user.username).exists() == False:
-                # if there is room in that class, sign up
+                if Participants.objects.filter(class_id=i, username=user.username).exists() == False:
+                    # if there is room in that class, sign up
                     if classToSignUpFor.num_signed_up < classToSignUpFor.size:
-                        
-                        #add this class id to the sucessful signup list
+
+                        # add this class id to the sucessful signup list
                         sucessfulClassSignups.append(classToSignUpFor.id)
-                        
-                        #create a new participant and store it
+
+                        # create a new participant and store it
                         newParticipant = Participants()
-                        newParticipant.email = str(user.email)
-                        newParticipant.name = user.first_name +" "+ user.last_name
+                        newParticipant.email = user.email
+                        newParticipant.name = user.first_name + " " + user.last_name
                         newParticipant.class_id = classToSignUpFor
                         newParticipant.username = str(user.username)
                         newParticipant.save()
-
-                        
-                    else: # if the class is full, then add it to the fail list
+                    else:  # if the class is full, then add it to the fail list
                         failedClassSignups.append(classToSignUpFor.id)
                 else:
                     alreadySignedUpFail.append(classToSignUpFor.id)
-            
+
             # print(sucessfulClassSignups)
             # print(failedClassSignups)
 
@@ -111,52 +115,102 @@ def SchedulePage(request):
             #NOTE: this is mainly useful for passing in between different views / different urls 
             request.session['signupdata'] = signupconfimation
 
-            
+            # store the signup confimation tuple in a session
+            # NOTE: a session is like a hash table / dictionary that stores data on a string key wihtin the database
+            # NOTE: this is mainly useful for passing in between different views / different urls
+            request.session['signupdata'] = signupconfimation
 
             # return user to required page which is the signup page
             return redirect('signup')
 
-
-
-        
     # render the page with the html and the context of classes to show all the available classes
     return render(request, "accountDashPage/schedulePage.html", contextOfClasses)
 
+
 @login_required
 def SignupClassPage(request):
-    classes_signed_up_for = request.session['signupdata'] # pull the signup data from the session database/table
-    del request.session['signupdata'] #delete the key/item because it is no longer needed to be stored since we just stored it in a variable
-    
-    #the following code prints the session items currently stored
+    # pull the signup data from the session database/table
+    classes_signed_up_for = request.session['signupdata']
+    # delete the key/item because it is no longer needed to be stored since we just stored it in a variable
+    del request.session['signupdata']
+
+    # the following code prints the session items currently stored
     # for key, value in request.session.items():
     #     print('{} => {}'.format(key, value))
 
-    sucessfulSignups = [] #this is a list that will store the actual class objects of the classes that were sucessfull signed up for
-    failedSignups = [] # this is a list that will store the actual class objects of the classes that were nor able to be signed up for
+    # this is a list that will store the actual class objects of the classes that were sucessfull signed up for
+    sucessfulSignups = []
+    failedSignups = []  # this is a list that will store the actual class objects of the classes that were nor able to be signed up for
     alreadySignedUp = []
 
-    for a in classes_signed_up_for[0]: # for all the sucessful ones, add their objects to the list
+    # for all the sucessful ones, add their objects to the list
+    for a in classes_signed_up_for[0]:
         sucessfulSignups.append(Classes.objects.get(id=a))
-    for b in classes_signed_up_for[1]: # for all the failed ones, add their objescts to the list
+    # for all the failed ones, add their objescts to the list
+    for b in classes_signed_up_for[1]:
         failedSignups.append(Classes.objects.get(id=b))
     for c in classes_signed_up_for[2]:
         alreadySignedUp.append(Classes.objects.get(id=c))
 
-    #strore the two lists as the context dictionary
-    context = { 
-        'succeed' : sucessfulSignups,
-        'failed' : failedSignups,
-        'signedUpAlready' : alreadySignedUp
+    # strore the two lists as the context dictionary
+    context = {
+        'succeed': sucessfulSignups,
+        'failed': failedSignups,
+        'signedUpAlready': alreadySignedUp
     }
-    #render the view with the context
+    # render the view with the context
     return render(request, "accountDashPage/signupclassPage.html", context)
 
+
 @login_required
+def MyClassesPage(request):
+    #get the participant entries for every class the user is signed up for
+    user = request.user
+    Participants_Entries = Participants.objects.filter(username=user.username)
+    
+    #get the id's of each class
+    SignUps = []
+    for i in Participants_Entries:
+        SignUps.append(i.class_id.id)
+
+    
+    #get the acutual classes based on the ids
+    MyClasses = []
+    for i in SignUps:
+        MyClasses.append(Classes.objects.get(id=i))
+
+    #define the context of MyClassesPage
+    contextforMyclasses = {
+        'classes' : MyClasses
+    }
+
+    if request.method == 'POST' and 'UnregisterForClass' in request.POST:
+
+        # get the clicked checkboxes, this gets a list of numbers that contain the checkbox id's,
+        # these ids are set to the value of the class id they are representing
+        check_boxes = request.POST.getlist('checkbox')
+        if check_boxes:  # if there were objects checked
+            # for all the class ids / checkboxes selected
+            for i in check_boxes:
+                # get the participant entry associated with that class id and username
+                registrationToDelete = Participants.objects.filter(class_id = i, username=user.username)
+
+                if registrationToDelete.exists() == True: # make sure the participant actually exists before trying to delete it 
+                    registrationToDelete.delete()
+            return redirect('MyClasses')
+
+    return render(request, "accountDashPage/myClasses.html",contextforMyclasses)
+
+
+@ login_required
 def CovidReportPage(request):
-    return render(request, "accountDashPage/covidreportPage.html") 
+    return render(request, "accountDashPage/covidreportPage.html")
+
 
 def ContactPage(request):
     return render(request, "accountDashPage/contactPage.html")
-@login_required
+
+
+@ login_required
 def FAQPage(request):
     return render(request, "accountDashPage/FAQPage.html")
