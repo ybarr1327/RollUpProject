@@ -2,15 +2,13 @@ from django.contrib.auth import login
 from django.shortcuts import redirect, render
 from django.urls import reverse
 from Pages.forms import CustomUserCreationForm
-
 from django.contrib.auth.decorators import login_required
-
 from django.contrib.auth.forms import UserCreationForm
-
 from django.contrib import messages
-
 from .models import Classes, Participants
 from datetime import date, timedelta
+from django.core.mail import send_mail
+from django.conf import settings
 
 
 
@@ -83,11 +81,13 @@ def SchedulePage(request):
                         
                         #create a new participant and store it
                         newParticipant = Participants()
-                        newParticipant.email = user.email
+                        newParticipant.email = str(user.email)
                         newParticipant.name = user.first_name +" "+ user.last_name
                         newParticipant.class_id = classToSignUpFor
                         newParticipant.username = str(user.username)
                         newParticipant.save()
+
+                        
                     else: # if the class is full, then add it to the fail list
                         failedClassSignups.append(classToSignUpFor.id)
                 else:
@@ -98,6 +98,13 @@ def SchedulePage(request):
 
             #store the sucess and fail lists in a tuple
             signupconfimation = (sucessfulClassSignups,failedClassSignups, alreadySignedUpFail)
+
+            send_mail('Roll Up Project - Sign Up Successful',
+                            'test',
+                            'rollupproject@gmail.com',
+                            ['rollupproject@gmail.com']
+                        )
+            
             
             #store the signup confimation tuple in a session
             #NOTE: a session is like a hash table / dictionary that stores data on a string key wihtin the database
@@ -134,7 +141,6 @@ def SignupClassPage(request):
         failedSignups.append(Classes.objects.get(id=b))
     for c in classes_signed_up_for[2]:
         alreadySignedUp.append(Classes.objects.get(id=c))
-
 
     #strore the two lists as the context dictionary
     context = { 
