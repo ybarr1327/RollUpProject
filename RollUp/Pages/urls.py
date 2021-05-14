@@ -27,4 +27,5 @@ urlpatterns = [
     path('accountDash/covidreport/',CovidReportPage, name = 'covidreport'),
     path('contact/',ContactPage, name = 'contact'),
     path('accountDash/FAQ/',FAQPage,name ='FAQ'),
+    path('notify/', NotifyPage, name = 'notify'),
 ]

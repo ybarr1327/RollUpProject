@@ -8,7 +8,7 @@
         h1 {font-family:'Signika', sans-serif; }
         p {font-family:'Signika', sans-serif; }
     </style>
-<h1>COVID Reporting</h1>
+<h1>COVID Notification Page</h1>
 </div>
 
 
@@ -65,34 +65,34 @@
 <div class="container">
   
   <form method="POST">
-    {% csrf_token %}
+  {% csrf_token %}
       
-    <label for="name">Name</label>
-    <input type="text" id="name" name="firstname" placeholder="First and Last">
+    <!-- <label for="name">Name</label>
+    <input type="text" id="name" name="firstname" placeholder="First and Last"> -->
     
     <label for="email">Email</label>
     <input type="text" id="email" name="email" placeholder="Enter email">
 
     
-    <br> <br>
+    <!-- <br> <br>
     <label for="chkYes">
       <input type="radio" id="chkYes" name="chk" onclick="covidTest()" value="Tested Positive"/>
       Tested Positive
-   </label>
+   </label> -->
 
    &nbsp;&nbsp;&nbsp;&nbsp; 
 
-   <label for="chkNo">
+   <!-- <label for="chkNo">
       <input type="radio" id="chkNo" name="chk" onclick="covidTest()" value = "Experiencing Symptoms"/>
       Experiencing Symptoms
-    </label>
+    </label> -->
 
     <br> <br>
     <input type = "date" id = "date" name = "date"> <br> <br>
 
-      <br> <br>
+      <!-- <br> <br>
       <p style = "font-weight: bold;">Additional Details</p>
-      <textarea id = "subject" name = "subject" placeholder = "Comment..." style="height:200px"></textarea> <br> <br>
+      <textarea id = "subject" name = "subject" placeholder = "Comment..." style="height:200px"></textarea> <br> <br> -->
 
       <input type="submit" name = "submit" value="Submit">
       

@@ -9,6 +9,7 @@ from .models import Classes, Participants
 from datetime import date, timedelta
 from django.core.mail import send_mail
 from django.conf import settings
+from django.utils.dateparse import parse_date
 
 
 # Create your views here.
@@ -240,7 +241,7 @@ def CovidReportPage(request):
 
 
 def ContactPage(request):
-    if request.method == 'POST' and 'Submit' in request.POSt:
+    if request.method == 'POST' and 'Submit' in request.POST:
         name = request.POST.get('firstname')
         email = request.POST.get('email')
         topic = request.POST.get('type')
@@ -258,3 +259,26 @@ def ContactPage(request):
 @ login_required
 def FAQPage(request):
     return render(request, "accountDashPage/FAQPage.html")
+
+def NotifyPage(request):
+    if request.method == 'POST':
+        email = request.POST.get('email')
+        dateStr = request.POST.get('date')
+        temp_date = parse_date(dateStr)
+        if(email and dateStr):
+            listOfParticipantEntries = Participants.objects.filter(email = email).values("class_id")
+
+            print(listOfParticipantEntries)
+
+
+            filteredClassids = []
+            
+            for i in listOfParticipantEntries['class_id']:
+                print(i)
+                # filteredClassids.append(Classes.objects.get(id = i , date__range=[temp_date - timedelta(days=14), temp_date]))
+            
+            
+            
+
+
+    return render(request, 'notify/notify.html') 
