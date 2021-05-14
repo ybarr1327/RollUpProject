@@ -216,11 +216,31 @@ def MyClassesPage(request):
 
 @ login_required
 def CovidReportPage(request):
+    if request.method == "POST":
+        name = request.POST.get('firstname')
+        email = request.POST.get('email')
+        option = request.POST.get('chk')
+        date = request.POST.get('date')
+        AdditionalComments = request.POST.get('subject')
+
+
+        # print(name)
+        # print(email)
+        # print(option)
+        # print(date)
+        # print(AdditionalComments) 
+
+        if name and email and option and date:
+            topic = 'COVID REPORT Sender Name: ' + name + ' Sender Email: ' + email
+            body = "Type: " + option + "\nDate: " + date + "\nAdditional Comments: " + AdditionalComments
+            send_mail(topic, body, email, ['rollupproject@gmail.com'])
+
+
     return render(request, "accountDashPage/covidreportPage.html")
 
 
 def ContactPage(request):
-    if request.method == 'POST':
+    if request.method == 'POST' and 'Submit' in request.POSt:
         name = request.POST.get('firstname')
         email = request.POST.get('email')
         topic = request.POST.get('type')

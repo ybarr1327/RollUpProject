@@ -64,7 +64,8 @@
 
 <div class="container">
   
-    <form action="#">
+  <form method="post">
+    {% csrf_token %}
       
     <label for="name">Name</label>
     <input type="text" id="name" name="firstname" placeholder="First and Last">
@@ -73,41 +74,30 @@
     <input type="text" id="email" name="email" placeholder="Enter email">
 
     
-    <br>
+    <br> <br>
     <label for="chkYes">
-      <input type="radio" id="chkYes" name="chk" onclick="covidTest()" />
+      <input type="radio" id="chkYes" name="chk" onclick="covidTest()" value="Tested Positive"/>
       Tested Positive
    </label>
 
    &nbsp;&nbsp;&nbsp;&nbsp; 
 
    <label for="chkNo">
-      <input type="radio" id="chkNo" name="chk" onclick="covidTest()" />
+      <input type="radio" id="chkNo" name="chk" onclick="covidTest()" value = "Experiencing Symptoms"/>
       Experiencing Symptoms
     </label>
 
-   <div id="covidInfo" style = "display: none">
-    <label for="start"> <br>
-      <p style = "font-weight: bold;">Test Date</p>
-    </label> <br>
-    <input type = "date" id = "test" name = "testDate"> <br> <br>
-    <p style = "font-weight: bold;">Additional Details</p>
-    <textarea id = "subject" name = "subject" placeholder = "Comment..." style = "height:200px"></textarea> <br> <br>
-    <input type="submit" value="Submit">
-    </div>
+    <br> <br>
+    <input type = "date" id = "date" name = "date"> <br> <br>
 
-    <div id="symptomInfo" style = "display: none">
-      <label for="start"> <br>
-        <p style = "font-weight: bold;">When did you start experiencing symptoms?</p>
-      </label> <br>
-      <input type = "date" id = "test" name = "testDate"> <br> <br>
+      <br> <br>
       <p style = "font-weight: bold;">Additional Details</p>
       <textarea id = "subject" name = "subject" placeholder = "Comment..." style="height:200px"></textarea> <br> <br>
-      <input type="submit" value="Submit">
-      </div> 
+
+      <input type="submit" name = "submit" value="Submit">
       
 
-    </form>
+  </form>
 
 
 
