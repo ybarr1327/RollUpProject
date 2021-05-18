@@ -10,6 +10,7 @@ from datetime import date, timedelta
 from django.core.mail import send_mail
 from django.conf import settings
 from django.utils.dateparse import parse_date
+from django.db.models import F
 
 
 # Create your views here.
@@ -85,7 +86,10 @@ def SchedulePage(request):
 
                         # add this class id to the sucessful signup list
                         sucessfulClassSignups.append(classToSignUpFor.id)
-
+                        
+                        #this increases the num_signed_up value
+                        classToSignUpFor.num_signed_up = F('num_signed_up') + 1
+                        classToSignUpFor.save()
                         # create a new participant and store it
                         newParticipant = Participants()
                         newParticipant.email = user.email
@@ -204,6 +208,13 @@ def MyClassesPage(request):
 
             for i in check_boxes:
                 registrationToDelete = Participants.objects.get(class_id=i, username=user.username)
+                
+                #the following two lines removes from the num signed up variable
+                if (registrationToDelete.class_id.num_signed_up - 1 >= 0):
+                    registrationToDelete.class_id.num_signed_up = F('num_signed_up') - 1
+                    registrationToDelete.class_id.save()
+                
+
                 email_msg += '\n' + registrationToDelete.class_id.type + ' ' + str(registrationToDelete.class_id.time) + ' ' + str(registrationToDelete.class_id.date)
                 # get the participant entry associated with that class id and username
                 
