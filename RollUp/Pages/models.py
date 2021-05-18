@@ -44,7 +44,7 @@ class Classes(models.Model):
     time = models.CharField('time', max_length=10, choices = choiceTime, default=AM)
     # The Size field will store an integer value for the number of participants allowed in the class.
     size = models.IntegerField('size', default=20, validators=[MinValueValidator(0)])
-    num_signed_up = models.IntegerField('num_signed_up', default=0, validators=[MinValueValidator(0)], editable=False) 
+    num_signed_up = models.IntegerField('num_signed_up', default=0, validators=[MinValueValidator(0)]) 
     # The Instructor field will store the name of the instructor teaching the class.
     instructor = models.CharField('instructor', max_length=50)
     # The Gi field will annotate whether a Gi will be required or not for class.
