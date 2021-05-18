@@ -266,16 +266,25 @@ def NotifyPage(request):
         dateStr = request.POST.get('date')
         temp_date = parse_date(dateStr)
         if(email and dateStr):
-            listOfParticipantEntries = Participants.objects.filter(email = email).values("class_id")
-
-            print(listOfParticipantEntries)
-
-
+            listOfParticipantEntries = list(Participants.objects.filter(email = email).values("class_id"))
             filteredClassids = []
-            
-            for i in listOfParticipantEntries['class_id']:
-                print(i)
-                # filteredClassids.append(Classes.objects.get(id = i , date__range=[temp_date - timedelta(days=14), temp_date]))
+            emailList = []
+            tempList = []
+            uniqueEmail = []
+            for i in listOfParticipantEntries:
+                filteredClassids.append(i['class_id'])
+            for x in filteredClassids:
+                tempList= Participants.objects.filter(class_id = x).values('email')
+                if tempList:
+                    for y in tempList:
+                        emailList.append(y['email'])
+            uniqueEmail = list(set(emailList))
+
+            if uniqueEmail:
+                topic = "ROLLUPPROJECT- EMAIL REQUIRES YOUR ATTENTION"
+                body = 'Dear Patron,\n You are recieving this email because it has been brought to our attention that there has been a COVID Exposure incident at our facility. We are therefore informing you that you attended a class that may have exposed you to the virus. We will continue to keep you informed as we learn more about the incident.\n Thank you for your time and feel free to contact us with any questions. \n Respectfully, \n RollUpProject'
+                fromEmail = 'rollupproject@gmail.com'
+                send_mail(topic, body, fromEmail, uniqueEmail)
             
             
             
