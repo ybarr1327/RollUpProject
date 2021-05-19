@@ -3,10 +3,12 @@ Github URL:
 Website URL:
 
 Professor Admin Account Info:
-Gmail:
-Rollup:
+Rollup Account:
+Username - adminProfessor
+Email - rollupproject@gmail.com
+Password - DjangoPythonCsusm
 
-Rollup email account for the email notification: 
+Gmail Account:
 G-MAIL: rollupproject@gmail.com  PW: DjangoPythonCsusm
 
 
