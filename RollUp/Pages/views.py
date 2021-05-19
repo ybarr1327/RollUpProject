@@ -3,6 +3,7 @@ from django.shortcuts import redirect, render
 from django.urls import reverse
 from Pages.forms import CustomUserCreationForm
 from django.contrib.auth.decorators import login_required
+from django.contrib.admin.views.decorators import staff_member_required
 from django.contrib.auth.forms import UserCreationForm
 from django.contrib import messages
 from .models import Classes, Participants
@@ -271,6 +272,7 @@ def ContactPage(request):
 def FAQPage(request):
     return render(request, "accountDashPage/FAQPage.html")
 
+@ staff_member_required
 def NotifyPage(request):
     if request.method == 'POST':
         email = request.POST.get('email')
