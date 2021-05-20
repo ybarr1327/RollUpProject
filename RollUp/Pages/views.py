@@ -255,14 +255,14 @@ def CovidReportPage(request):
 def ContactPage(request):
     if request.method == 'POST':
         name = request.POST.get('firstname')
-        email = 'rollupproject@gmail.com'
+        email = request.POST.get('email')
         topic = request.POST.get('type')
         body = request.POST.get('subject')
        
         if name and email and topic != 'select' and body:
             topic += ' Sender Name: ' + name + 'Sender Email: ' + email
 
-            send_mail(topic,body,email,['rollupproject@gmail.com'])
+            send_mail(topic,body,'rollupproject@gmail.com',['rollupproject@gmail.com'])
         
 
     return render(request, "accountDashPage/contactPage.html")
