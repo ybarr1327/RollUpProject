@@ -253,9 +253,9 @@ def CovidReportPage(request):
 
 
 def ContactPage(request):
-    if request.method == 'POST' and 'Submit' in request.POST:
+    if request.method == 'POST':
         name = request.POST.get('firstname')
-        email = request.POST.get('email')
+        email = 'rollupproject@gmail.com'
         topic = request.POST.get('type')
         body = request.POST.get('subject')
        
